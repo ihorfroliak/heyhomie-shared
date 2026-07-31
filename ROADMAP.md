@@ -25,9 +25,18 @@ Compact, cross-surface. Detail lives in each repo's own state docs
    calculator; 17 unit assertions), and the Fastify server serves it at **public `GET /pricing/cleaning`**
    (live-test verified). The web `lib/cleaning/calculator.js` holds the same numbers and stays matched
    to this table until `@heyhomie/domain` is extracted as a shared package (see long-term move below).
-6. **Mobile fonts** — apply the Manrope tokens for real: no component sets `fontFamily` today, so this
-   needs a theming layer (a default `<Text>` / wrapper) + multi-weight font loading via expo-font
-   (google-fonts registers weighted family names, e.g. `Manrope_600SemiBold`). Deliberate task, not a polish.
+6. **Mobile fonts** — apply the Manrope tokens for real. **Investigated (2026-07) + verified in the Expo
+   web preview:** the two low-churn global hooks DO NOT work in this stack (RN 0.81 / React 19 / RN-web):
+   - `Text.defaultProps` → **ignored by React 19** (fonts loaded via `useFonts`, but 0 elements computed to
+     Manrope).
+   - patching `Text.render` to inject the family → **crashes react-native-web** (`Failed to set indexed
+     property on CSSStyleDeclaration` — the web render output already carries a resolved style object, not
+     an RN style array) → white screen.
+   So it needs the proper theming layer: a **shared `<Text>` wrapper in `packages/ui`** that every screen
+   uses (real refactor — components currently import RN `Text` directly and set `fontWeight` but no
+   `fontFamily`), plus multi-weight loading (google-fonts exposes `Manrope_400Regular`…`_800ExtraBold`).
+   The attempt was reverted to a clean working state; `@expo-google-fonts/manrope`+`montserrat` are the
+   right packages when this is done deliberately.
 
 ## `/cleaning` — remaining follow-ups (each needs an owner / environment, not blind edits)
 - **Booking prefill (consume side)** — read `readCleaningDraft()` on `/[city]` when `selectedService=cleaning`
