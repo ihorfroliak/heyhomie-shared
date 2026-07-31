@@ -6,7 +6,7 @@ Compact, cross-surface. Detail lives in each repo's own state docs
 ## Surface status
 | Surface | State (2026-07) |
 |---|---|
-| **Client web** | Homepage + city SEO content live in repo (undeployed batch). **Next: rebuild `/cleaning` service page from the new design** (calculator + checklist + others + office) against DOMAIN_RULES. Repo has **no git yet (R1)** — git-init first. |
+| **Client web** | Under git (`heyhomie-web-update`, on `main`, undeployed). **`/cleaning` rebuilt from the new design** against DOMAIN_RULES + BRAND — live price calculator (canon engine), scope sections (included / exclusions / fragile / others), pl/en i18n, and a sessionStorage capture of the calculator selection. 5 clean commits (`a1084c2`→`11959ff`), isolated from the in-progress SEO WIP. City SEO content is separate WIP in the same repo. |
 | **Mobile client/worker/admin** | Expo SDK **54** (upgraded from 51). Core loop + auth wired to the Fastify/pg backend; ~20 admin ops screens still demo. Recent audit fixes landed (auth CAS, async scrypt, secret guard, randomUUID, TZ, auth throttle) on branch `upgrade/sdk-54`. |
 | **Backend / platform** (`homies` + `heyhomie-mobile/server`) | Fastify+pg orders backend (auth, tenancy, migrations, SSE). Real Stripe/email not yet wired. |
 
@@ -16,12 +16,26 @@ Compact, cross-surface. Detail lives in each repo's own state docs
    **Pending:** bundle the actual fonts (`@expo-google-fonts/manrope` + Montserrat + `useFonts` in each
    `_layout`) so Manrope renders instead of the system fallback.
 3. ✅ **DONE — mobile add-on ids** aligned to the canonical set (commit `5d0134e`, DOMAIN_RULES §3/§11).
-4. **Web `/cleaning` rebuild** against DOMAIN_RULES + BRAND (twin.macro + next-intl pl/en). The web
-   repo is already under git (`heyhomie-web-update`), so no git-init needed. ← **NEXT**
+4. ✅ **DONE — Web `/cleaning` rebuild** against DOMAIN_RULES + BRAND (`a1084c2`→`11959ff`):
+   pure price engine (unit-tested 10/10 vs canon) · calculator widget · 4 scope sections · pl/en
+   i18n (co-located dict — messages/*.json were WIP) · sessionStorage draft capture (helper 7/7).
+   All eslint-clean; the `tw=`/`css=` props were avoided (not configured in this repo).
 5. **Backend returns the canonical price table** (DOMAIN_RULES §1) so web + mobile show identical prices.
 6. **Mobile fonts** — apply the Manrope tokens for real: no component sets `fontFamily` today, so this
    needs a theming layer (a default `<Text>` / wrapper) + multi-weight font loading via expo-font
    (google-fonts registers weighted family names, e.g. `Manrope_600SemiBold`). Deliberate task, not a polish.
+
+## `/cleaning` — remaining follow-ups (each needs an owner / environment, not blind edits)
+- **Booking prefill (consume side)** — read `readCleaningDraft()` on `/[city]` when `selectedService=cleaning`
+  and map it onto the order-session config, then `clearCleaningDraft()`. Needs the **backend services-config
+  contract** + the **booking-flow owner** + touches the WIP `[city].js` + a **runtime env** to test. Write side
+  is already live (isolated).
+- **Live-render + component tests (web)** — blocked today: `_app.getInitialProps` fetches `/cities`, so the dev
+  server needs the **backend up**. Verified so far by eslint + the pure-engine/helper unit tests only.
+- **Translate the section marketing prose** (`cleaningContent.js`: exclusion bodies, room samples, fragile
+  chips, service names) — pairs with the SEO strings being translated in `messages/*.json`.
+- **Polish** — `$`-transient styled-props (drop dev console warnings) · a full-checklist page · mobile Manrope
+  font rendering (step 6).
 
 ## The strongest long-term move
 Extract **`@heyhomie/domain`** (pure TS: pricing, add-on/included logic, time estimate, cancellation)
