@@ -20,7 +20,11 @@ Compact, cross-surface. Detail lives in each repo's own state docs
    pure price engine (unit-tested 10/10 vs canon) · calculator widget · 4 scope sections · pl/en
    i18n (co-located dict — messages/*.json were WIP) · sessionStorage draft capture (helper 7/7).
    All eslint-clean; the `tw=`/`css=` props were avoided (not configured in this repo).
-5. **Backend returns the canonical price table** (DOMAIN_RULES §1) so web + mobile show identical prices.
+5. ✅ **DONE — canonical price table in the domain + served by the API** (mobile `a8fab5f`):
+   `packages/domain/pricing.ts` is the authoritative TS source (matches DOMAIN_RULES §1–§7 + the web
+   calculator; 17 unit assertions), and the Fastify server serves it at **public `GET /pricing/cleaning`**
+   (live-test verified). The web `lib/cleaning/calculator.js` holds the same numbers and stays matched
+   to this table until `@heyhomie/domain` is extracted as a shared package (see long-term move below).
 6. **Mobile fonts** — apply the Manrope tokens for real: no component sets `fontFamily` today, so this
    needs a theming layer (a default `<Text>` / wrapper) + multi-weight font loading via expo-font
    (google-fonts registers weighted family names, e.g. `Manrope_600SemiBold`). Deliberate task, not a polish.
