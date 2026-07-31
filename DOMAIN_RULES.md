@@ -169,9 +169,10 @@ there is no conflict: the "backend prices" mobile refers to ARE these numbers. *
 backend/API must return exactly this table so web + mobile show the same price for the same order.
 Changing a price = edit this file first, then the API.
 
-**✅ DECIDED (2026-07) — 2. Add-on id set = web canon.**
-The web ids + prices (`oven/fridge/hood/cabinets/microwave/bins/balcony/windows/ironing/hours`, §3)
-are canon. **Action:** align the mobile `cleaning.ts` add-on list to these ids (§11 follow-up); the
-`includedInGeneral` logic already matches.
+**✅ DECIDED + DONE (2026-07) — 2. Add-on id set = web canon.**
+The web ids (`oven/fridge/hood/cabinets/microwave/bins/balcony/windows/ironing/hours`, §3) are canon.
+Mobile `cleaning.ts` **is now aligned** (commit `5d0134e`): renamed `extra_hours→hours`, dropped
+`dishes_large`/`ventilator` (general checklist items, not bookable), added `cabinets`/`bins`, made
+`balcony` included-in-general, and matched the planning minutes. Prices stay backend-side per §1.
 
 **Everything in this file is canon.** Change a rule here first, then propagate to every surface.

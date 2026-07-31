@@ -15,9 +15,13 @@ Compact, cross-surface. Detail lives in each repo's own state docs
 2. ✅ **DONE — mobile token migration:** `packages/design/tokens.ts` values + font tokens → canon.
    **Pending:** bundle the actual fonts (`@expo-google-fonts/manrope` + Montserrat + `useFonts` in each
    `_layout`) so Manrope renders instead of the system fallback.
-3. **Web `/cleaning` rebuild** against DOMAIN_RULES + BRAND (in-convention: twin.macro + next-intl pl/en; git-init first per web R1). ← **NEXT**
-4. **Align mobile add-on ids** to the canonical set (DOMAIN_RULES §3/§11).
+3. ✅ **DONE — mobile add-on ids** aligned to the canonical set (commit `5d0134e`, DOMAIN_RULES §3/§11).
+4. **Web `/cleaning` rebuild** against DOMAIN_RULES + BRAND (twin.macro + next-intl pl/en). The web
+   repo is already under git (`heyhomie-web-update`), so no git-init needed. ← **NEXT**
 5. **Backend returns the canonical price table** (DOMAIN_RULES §1) so web + mobile show identical prices.
+6. **Mobile fonts** — apply the Manrope tokens for real: no component sets `fontFamily` today, so this
+   needs a theming layer (a default `<Text>` / wrapper) + multi-weight font loading via expo-font
+   (google-fonts registers weighted family names, e.g. `Manrope_600SemiBold`). Deliberate task, not a polish.
 
 ## The strongest long-term move
 Extract **`@heyhomie/domain`** (pure TS: pricing, add-on/included logic, time estimate, cancellation)
