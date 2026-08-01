@@ -45,8 +45,11 @@ Compact, cross-surface. Detail lives in each repo's own state docs
   is already live (isolated).
 - **Live-render + component tests (web)** — blocked today: `_app.getInitialProps` fetches `/cities`, so the dev
   server needs the **backend up**. Verified so far by eslint + the pure-engine/helper unit tests only.
-- **Translate the section marketing prose** (`cleaningContent.js`: exclusion bodies, room samples, fragile
-  chips, service names) — pairs with the SEO strings being translated in `messages/*.json`.
+- ✅ **DONE — section prose translated (pl/en)** (web `8ae7fde`): exclusion bodies, room samples, fragile
+  chips/notes and other-service names now render in EN on `/en`. Text moved to `cleaningCopy.js scope`
+  (pl+en), numbers/ids stay in `cleaningContent.js`, index-aligned; verified by a node structural check (16/16).
+  `/cleaning` is now fully bilingual. (Copy still lives in the co-located dict, not next-intl messages —
+  migrate when the messages WIP lands.)
 - **Polish** — `$`-transient styled-props (drop dev console warnings) · a full-checklist page · mobile Manrope
   font rendering (step 6).
 
