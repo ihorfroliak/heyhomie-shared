@@ -32,11 +32,12 @@ Compact, cross-surface. Detail lives in each repo's own state docs
    - patching `Text.render` to inject the family → **crashes react-native-web** (`Failed to set indexed
      property on CSSStyleDeclaration` — the web render output already carries a resolved style object, not
      an RN style array) → white screen.
-   So it needs the proper theming layer: a **shared `<Text>` wrapper in `packages/ui`** that every screen
-   uses (real refactor — components currently import RN `Text` directly and set `fontWeight` but no
-   `fontFamily`), plus multi-weight loading (google-fonts exposes `Manrope_400Regular`…`_800ExtraBold`).
-   The attempt was reverted to a clean working state; `@expo-google-fonts/manrope`+`montserrat` are the
-   right packages when this is done deliberately.
+   **Solved (mobile `ffa873b`) via the wrapper:** `packages/ui/src/Text.tsx` `<Txt>` maps `fontWeight` →
+   the matching Manrope face (`Manrope_400Regular`…`_800ExtraBold`) — true weights, native + web. The
+   shared UI kit (Button/EmptyState/MissionCard/Segmented/StatusBadge) is migrated; faces load via
+   `useFonts` in each `_layout`. **Verified in the web preview:** the ui Button label computes to
+   `Manrope_600SemiBold`. **Incremental follow-up:** migrate the app SCREENS' raw `<Text>` → `<Txt>` so
+   every surface (not just the shared kit) renders Manrope.
 
 ## `/cleaning` — remaining follow-ups (each needs an owner / environment, not blind edits)
 - **Booking prefill (consume side)** — read `readCleaningDraft()` on `/[city]` when `selectedService=cleaning`
