@@ -17,6 +17,7 @@ reality instead of three drifting copies.
   discounts, add-ons, included-in-general logic, cancellation, area, gear fee, other services,
   checklist. **This is the anti-divergence anchor.** Every calculator/booking flow must match it.
 - **[BRAND.md](BRAND.md)** — design tokens (colour, type, spacing, radii). One palette both sides consume.
+- **[DOMAIN_EXTRACT.md](DOMAIN_EXTRACT.md)** — plan + decision for the one shared `@heyhomie/domain` code package.
 - **[ROADMAP.md](ROADMAP.md)** — per-surface status + what's next.
 
 ## Sync protocol (how this stays true)
